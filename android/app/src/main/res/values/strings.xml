@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ayurzenix</string>
+    <string name="title_activity_main">Ayurzenix</string>
+    <string name="package_name">in.ayurzenix.app</string>
+    <string name="custom_url_scheme">in.ayurzenix.app</string>
+</resources>

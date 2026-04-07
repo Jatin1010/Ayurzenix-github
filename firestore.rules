@@ -1,0 +1,165 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required)
+    //   - displayName: string (optional)
+    //   - photoURL: string (optional)
+    //   - language: string (required, 'en' or 'hi')
+    //   - free_results_count: number (required)
+    //   - is_premium: boolean (required)
+    //   - wallet_balance: number (required)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: health_profiles
+    // Document ID: {profileId}
+    // Fields:
+    //   - uid: string (required)
+    //   - age: number (required)
+    //   - gender: string (required)
+    //   - weight: number (optional)
+    //   - lifestyle: string (required)
+    //   - medicalHistory: string (optional)
+    //   - currentSymptoms: string (required)
+    //   - knownDiseases: string (optional)
+    //   - duration: string (optional)
+    //   - analysis: map (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: transactions
+    // Document ID: {transactionId}
+    // Fields:
+    //   - uid: string (required)
+    //   - amount: number (required)
+    //   - type: string (required, 'recharge' or 'payment')
+    //   - status: string (required, 'pending', 'success', 'failed')
+    //   - razorpay_order_id: string (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: users/{userId}/daily_routines
+    // Document ID: {date}
+    // Fields:
+    //   - uid: string (required)
+    //   - date: string (required, YYYY-MM-DD)
+    //   - progress: number (required)
+    //   - quiz: list (optional)
+    //   - targets: list (optional)
+    //   - tasks: list (optional)
+    //   - streak: number (required)
+    //   - isCompleted: boolean (optional)
+    //   - createdAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'language', 'free_results_count', 'wallet_balance', 'is_premium', 'createdAt']) &&
+             data.uid is string &&
+             (!('email' in data) || (data.email is string || data.email == null)) &&
+             (!('phoneNumber' in data) || data.phoneNumber is string) &&
+             data.language in ['en', 'hi'] &&
+             data.free_results_count is number &&
+             data.wallet_balance is number &&
+             data.is_premium is bool &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidHealthProfile(data) {
+      let isHealthScan = data.keys().hasAll(['uid', 'type', 'age', 'gender', 'lifestyle', 'currentSymptoms', 'createdAt']) &&
+                         data.type == 'health_scan' &&
+                         data.uid is string &&
+                         data.age is number &&
+                         data.gender is string &&
+                         data.lifestyle is string &&
+                         data.currentSymptoms is string &&
+                         data.createdAt is timestamp;
+      
+      let isBodyScan = data.keys().hasAll(['uid', 'type', 'image', 'analysis', 'createdAt']) &&
+                       data.type == 'body_scan' &&
+                       data.uid is string &&
+                       data.image is string &&
+                       data.analysis is map &&
+                       data.createdAt is timestamp;
+
+      return isHealthScan || isBodyScan;
+    }
+
+    function isValidTransaction(data) {
+      return data.keys().hasAll(['uid', 'amount', 'type', 'status', 'createdAt']) &&
+             data.uid is string &&
+             data.amount is number &&
+             data.type in ['recharge', 'payment'] &&
+             data.status in ['pending', 'success', 'failed'] &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidDailyRoutine(data) {
+      return data.keys().hasAll(['uid', 'date', 'progress', 'streak', 'createdAt']) &&
+             data.uid is string &&
+             data.date is string &&
+             data.progress is number &&
+             data.streak is number &&
+             data.createdAt is timestamp;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+             ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', 'user') == 'admin') ||
+              (request.auth.token.email == "Help@ayurzenix.in" && request.auth.token.email_verified == true) ||
+              (request.auth.token.email == "jatin1978kumar@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && 
+                       request.resource.data.uid == resource.data.uid) || isAdmin();
+
+      match /daily_routines/{date} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create: if isOwner(userId) && isValidDailyRoutine(request.resource.data);
+        allow update: if isOwner(userId) && isValidDailyRoutine(request.resource.data) && 
+                         request.resource.data.uid == resource.data.uid;
+      }
+    }
+
+    match /health_profiles/{profileId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid && isValidHealthProfile(request.resource.data);
+      allow update: if isAuthenticated() && resource.data.uid == request.auth.uid && isValidHealthProfile(request.resource.data) && request.resource.data.uid == resource.data.uid;
+      allow delete: if isAuthenticated() && resource.data.uid == request.auth.uid;
+    }
+
+    match /transactions/{transactionId} {
+      allow read: if isAuthenticated() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid && isValidTransaction(request.resource.data);
+      allow update: if isAdmin(); // Only admin/system can update transaction status
+    }
+  }
+}

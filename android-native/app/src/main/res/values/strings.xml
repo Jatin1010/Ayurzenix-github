@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Ayurzenix</string>
+    <string name="welcome">Namaste, %1$s</string>
+    <string name="start_chat">Chat with Ayurzenix</string>
+    <string name="recharge">Recharge Wallet</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="ask_ayurzenix">Ask Ayurzenix about your health...</string>
+    <string name="disclaimer">🌿 Ayurzenix provides wellness guidance based on Ayurvedic principles.</string>
+</resources>

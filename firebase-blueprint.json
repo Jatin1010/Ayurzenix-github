@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and wallet information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "language": { "type": "string", "enum": ["en", "hi"] },
+        "free_results_count": { "type": "number" },
+        "is_premium": { "type": "boolean" },
+        "wallet_balance": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "language", "free_results_count", "wallet_balance"]
+    },
+    "HealthProfile": {
+      "title": "Health Profile",
+      "description": "User's health data and AI analysis results",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "weight": { "type": "number" },
+        "lifestyle": { "type": "string" },
+        "medicalHistory": { "type": "string" },
+        "currentSymptoms": { "type": "string" },
+        "knownDiseases": { "type": "string" },
+        "duration": { "type": "string" },
+        "analysis": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "age", "gender", "lifestyle", "currentSymptoms", "createdAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Wallet recharge or analysis payment",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["recharge", "payment"] },
+        "status": { "type": "string", "enum": ["pending", "success", "failed"] },
+        "razorpay_order_id": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "amount", "type", "status", "createdAt"]
+    },
+    "DailyRoutine": {
+      "title": "Daily Routine",
+      "description": "User's daily Ayurvedic routine and progress",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "progress": { "type": "number" },
+        "quiz": { "type": "array" },
+        "targets": { "type": "array" },
+        "tasks": { "type": "array" },
+        "streak": { "type": "number" },
+        "isCompleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "date", "progress", "streak", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/users/{userId}/daily_routines/{date}": {
+      "schema": "DailyRoutine",
+      "description": "User's daily routine progress"
+    },
+    "/health_profiles/{profileId}": {
+      "schema": "HealthProfile",
+      "description": "User health analysis history"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Wallet transaction history"
+    }
+  }
+}

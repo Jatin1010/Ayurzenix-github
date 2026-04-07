@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:background="#E5E7EB" />
+
+    <ImageView
+        android:id="@+id/ivPermissionIcon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_camera"
+        app:tint="#22C55E" />
+
+    <TextView
+        android:id="@+id/tvPermissionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Camera Access"
+        android:textColor="#1F2937"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvPermissionDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="Allow camera access to scan your condition instantly using AI."
+        android:textColor="#6B7280"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btnAllow"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#22C55E"
+        android:fontFamily="sans-serif-black"
+        android:text="Allow"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="16dp" />
+
+    <Button
+        android:id="@+id/btnNotNow"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-bold"
+        android:text="Not Now"
+        android:textAllCaps="false"
+        android:textColor="#9CA3AF" />
+
+</LinearLayout>

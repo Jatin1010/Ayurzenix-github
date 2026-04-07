@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginEnd="48dp"
+    android:background="@drawable/bg_chat_ai">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📋 Analysis Result"
+        android:textStyle="bold"
+        android:textColor="#1F2937"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvObservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Observation: ..."
+        android:textColor="#374151" />
+
+    <TextView
+        android:id="@+id/tvImbalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Imbalance: ..."
+        android:textColor="#374151" />
+
+    <TextView
+        android:id="@+id/tvWellness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Wellness Insight: ..."
+        android:textColor="#374151" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="🌿 Personalized Remedies"
+        android:textStyle="bold"
+        android:textColor="#22C55E" />
+
+    <TextView
+        android:id="@+id/tvRemedies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="• Remedy 1\n• Remedy 2"
+        android:textColor="#374151" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="🛒 Recommended Products"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#111827"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Based on your Ayurvedic analysis"
+        android:textColor="#6B7280"
+        android:textSize="12sp"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:id="@+id/layoutMedicines"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="⚠️ Disclaimer: This is not a medical diagnosis. Consult a professional for serious conditions."
+        android:textColor="#9CA3AF"
+        android:textSize="10sp" />
+
+</LinearLayout>

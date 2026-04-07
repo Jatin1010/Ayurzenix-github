@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "464776948246",
+    "project_id": "flutter-ai-playground-3b9e5",
+    "storage_bucket": "flutter-ai-playground-3b9e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464776948246:android:d8b56097d8bf69b299e337",
+        "android_client_info": {
+          "package_name": "in.ayurzenix.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464776948246-ordthv2lf861camjd950f32lti32rg5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbG8V50p7HF_QTCkOaosuWesCXdT3XnWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464776948246-ordthv2lf861camjd950f32lti32rg5t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
